@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ site_title }} - {{ title_message }} {% endblock %}
+
+{% block body %}
+<div class="container text-black justify-items-center"> 
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            {% if product %}
+                <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
+                    <div class="swiper-wrapper">
+                        {% for picture in product.productPictures %}
+                            <div class="swiper-slide">
+                                <a href="{{ picture.picturePath }}" data-fslightbox="gallery">
+                                    <img src="{{ picture.picturePath }}" alt="Product Image" class="img-fluid"/>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+                
+                <div thumbsSlider="" class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        {% for picture in product.productPictures %}
+                            <div class="swiper-slide">
+                                <img src="{{ picture.picturePath }}" alt="Product Thumbnail"/>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <p>Kein Produkt gefunden.</p>
+            {% endif %}
+        
+        </div>    
+        <div class="col-12 col-lg-6">
+            <div class="card border-light mb-3" style="max-width: 100%;" data-bs-toggle="tooltip" data-bs-placement="top" title="Dieser Artikel ist heiß begehrt">
+                
+                <div class="card-header fs-2 d-flex">
+                    <span>Artikelbezeichnung: {{ product.title }}</span>              
+                    <p class="ms-auto fs-5">by: {{ product.createdFrom.userName }}</p>
+                </div>
+                <div class="card-body">
+                    <div class="">
+                        <h5 class="card-title">ArtNr: art-000{{ product.id }}</h5>
+                        <h5 class="card-title">Preis: {{ product.price }} €</h5>
+                        <p class="card-text fs-5">Beschreibung: {{ product.description }}</p>
+                        <p class="card-text fs-5">erstellt am: {{ product.createdAt|date('d/m/Y - H:i') }} Uhr</p>                    
+                        <p class="card-text fs-5 text-success">Dieses unfassbar gute Produkt ist noch erhältlich!</p>                    
+                    </div>
+                    <div class="d-grid ms-auto me-auto w-75 mt-5">
+                        {% if app.user %}
+                                <button type="button" class="btn btn-primary p-3 fs-3">Kaufen</button>
+                        {% else %}
+                                <p class="fw-bold text-danger mt-auto mb-auto fs-4 w-100">Loggen Sie sich ein um das Produkt zu kaufen!</p>
+                        {% endif %}
+                    </div>                        
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if app.user and app.user.email == product.createdFrom.email %}
+        <div class="row mt-5">
+            <div class="col-12">
+              <h3>ADMIN CONTROL PANEL</h3>
+            </div>
+            <hr>
+            <div class="col-12 d-flex gap-2">
+                <button type="button" class="btn btn-danger p-2" data-bs-toggle="modal" data-bs-target="#deleteProductModal">LÖSCHEN</button>
+                <button type="button" class="btn btn-secondary p-2 showProductEditForm">EDITIEREN</button>
+            </div>
+        </div>
+     {% include 'product/partials/deleteProductQueryBox.html.twig' with {'id': product.id} %} 
+    
+    {% endif %}
+    
+</div>
+{% include 'product/partials/editProductForm.html.twig' %} 
+{% endblock %}

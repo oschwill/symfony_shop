@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ site_title }} - {{ welcome_message}}{% endblock %}
+
+{% block body %}
+<div class="container-fluid align-content-center text-light">  
+    <div class="delusional">
+</div>
+    <h1 class="text-center mb-4">{{ welcome_message }}</h1>
+    <p class="w-75 ms-auto me-auto mt-4 fs-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit atque necessitatibus natus in deleniti magnam. Facilis recusandae expedita, similique, maiores accusantium ut, dicta non temporibus ullam quod doloremque! Voluptatum, libero.
+    Non repudiandae sed reiciendis vitae sunt aspernatur nostrum, ab, aut qui esse quas quos, assumenda illum eligendi eveniet aliquam ipsum! Vero delectus eum modi ab voluptates ratione sapiente vel magnam?
+    Dicta excepturi aspernatur culpa ut architecto, optio numquam fugiat saepe sunt quibusdam aliquid perferendis illo! Deserunt officia inventore aut tempore numquam corporis repudiandae harum maxime iure pariatur, ea dolorum magni?
+    Dolor voluptas quo animi quas facere accusantium minima eaque exercitationem id doloremque atque est repellendus possimus illum aut quibusdam nihil excepturi, iusto accusamus velit voluptate. Ab ipsum velit quos repudiandae!
+</p>
+
+    <div class="row mt-5 align-content-center">
+        <div class="col-12 d-flex justify-content-center gap-2 mb-4">         
+            <a href="/login" class="btn btn-light w-25 p-4 fs-2 opacity-75">Login</a>   
+            <a href="/register" class="btn btn-light w-25 p-4 fs-2 opacity-75">Register</a>                            
+        </div>
+        <div class="col-12 d-flex justify-content-center" >         
+            <a href="/shop" class="btn btn-light w-50 p-4 fs-2 opacity-75">Weiter zum Shop</a>                          
+        </div>
+    </div>
+    <div class="row mt-5 align-content-center d-flex justify-content-center">
+    <div class="gangnam-style">
+    </div>
+    </div>
+</div>
+{% endblock %}

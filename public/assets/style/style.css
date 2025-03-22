@@ -1,0 +1,60 @@
+body {
+    background-color: #181818;
+    color: #fff;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+    font-variation-settings: "slnt" 0;
+}
+
+h1 {
+    color: #858585;
+    font-weight: 200;
+}
+
+.border-purple {
+    border-color: #A947B9;
+}
+
+.color-purple {
+    color:  #A947B9;
+}
+
+.header {
+    background-image:linear-gradient(90deg, #3084ff, #ff10ec, #ff7757);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: 50px;
+    aspect-ratio: 1;
+    display: grid;
+    border: 4px solid #0000;
+    border-radius: 50%;
+    border-right-color: #A947B9;
+    animation: l15 1s infinite linear;
+}
+.loader::before,
+.loader::after {
+    content: "";
+    grid-area: 1/1;
+    margin: 2px;
+    border: inherit;
+    border-radius: 50%;
+    animation: l15 2s infinite;
+}
+.loader::after {
+    margin: 8px;
+    animation-duration: 3s;
+}
+@keyframes l15{
+    100%{transform: rotate(1turn)}
+}
+
+.d-hide-flash {
+    opacity: 0;
+    transition: opacity ease-in-out 1s;
+}

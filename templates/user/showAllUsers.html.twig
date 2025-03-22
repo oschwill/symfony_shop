@@ -1,0 +1,49 @@
+{# templates/user/showAllUsers.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}User List{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="text-light">Active Users</h1>
+
+    <table class="table table-striped table-hover fs-4 user-table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Vorname</th>
+                <th scope="col">Nachname</th>
+                <th scope="col">Email</th>
+                <th scope="col">erstellt am:</th>
+                <th scope="col">Zuletzt eingeloggt:</th>
+                <th scope="col">Onlinestatus:</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr scope="row" class="{% if app.user.id == user.id %}table-active{% endif %}">
+                    <td >{{ loop.index }}</td>
+                    <td >{{ user.username }}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.createdAt|date('d.m.Y, H:i') }}  Uhr</td>
+                    <td>{{ user.lastLoginAt|date('d.m.Y, H:i') }}  Uhr</td>
+                    <td>
+                        {% if user.isOnline %}
+                            <span class="badge bg-success rounded-pill">Online</span>
+                        {% else %}
+                            <span class="badge bg-danger rounded-pill">Offline</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr scope="row">
+                    <td colspan="4">Keine aktiven Benutzer vorhanden!</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

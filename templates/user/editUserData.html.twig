@@ -1,0 +1,170 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Shop | {{controller_name}} {% endblock %}
+
+{% block body %}
+
+<div class="container text-light" >
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center mb-5">{{ controller_name }}</h1>
+        </div>
+    </div>
+    {% if app.user %}
+    <div class="row">
+        <!-- LOGIN INFORMATIONEN -->
+        <div class="col-12">
+            <p class="fs-3">Username: <span>{{ app.user.username }}</span></p>
+            <p class="fs-3">Registriert seit: <span>{{ app.user.createdAt|date('d.m.Y, H:i') }}  Uhr</span></p>
+            <p class="fs-3">Userdaten geändert am: 
+                <span>
+                    {% if app.user.updatedAt is not null %}
+                        {{ app.user.updatedAt|date('d.m.Y, H:i') }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </span>
+            </p>
+
+        </div>
+        <!-- OBERER PART -->
+        <div class="col-12">
+            {{ form_start(userForm) }}
+            <div class="row align-items-center">
+                <div class="col-12 col-lg-3">
+                    <div class="card shadow-lg p-3 mb-5 bg-light-gray rounded-3 custom-card">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                {{ form_label(userForm.oldPassword, null, {'label_attr': {'class': 'fs-4'}}) }}
+                                <div class="input-group">
+                                    {{ form_widget(userForm.oldPassword, {'attr': {'class': 'p-3 fs-5', 'user-form-field': 'oldPassword'}}) }}
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                {{ form_label(userForm.password, null, {'label_attr': {'class': 'fs-4'}}) }}
+                                <div class="input-group position-relative">
+                                    {{ form_widget(userForm.password, {'attr': {'class': 'p-3 fs-5', 'user-form-field': 'password'}}) }}
+                                    <p type="button" class="position-absolute top-50 end-0 translate-middle-y me-2 toggle-password-visibility" style="z-index: 200;">
+                                        <i id="eye-icon-pw" class="bi bi-eye" style="font-size: 2rem;"></i>
+                                    </p>
+                                </div>
+                                <div class="fs-5 fw-bold">
+                                    {{ form_errors(userForm.password) }}
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                {{ form_label(userForm.passwordRepeat, null, {'label_attr': {'class': 'fs-4'}}) }}
+                                <div class="input-group position-relative">
+                                    {{ form_widget(userForm.passwordRepeat, {'attr': {'class': 'p-3 fs-5', 'user-form-field': 'passwordRepeat'}}) }}
+                                    <p type="button" class="position-absolute top-50 end-0 translate-middle-y me-2 toggle-password-visibility" style="z-index: 200;">
+                                        <i id="eye-icon-pwwdh" class="bi bi-eye" style="font-size: 2rem;"></i>
+                                    </p>
+                                </div>
+                                <div class="fs-5 fw-bold">
+                                    {{ form_errors(userForm.passwordRepeat) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>        
+                </div>
+                <div class="col-12 col-lg-8  ms-auto">
+                    <div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded-3 custom-card">
+                        <div class="card-body">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        {# {{ form_label(userForm.pictureUpload, null, {'label_attr': {'class': 'fs-4'}}) }} #}
+                                        {{ form_widget(userForm.pictureUpload, {'attr': {'class': 'p-3 fs-5', 'user-form-field': 'pictureUpload', 'id': 'pictureUpload'}}) }}
+                                        {{ form_errors(userForm.pictureUpload) }}
+                                    </div>
+                                      <!-- Reset Image Button -->
+                                    <div id="resetButtonContainer" class="text-center" style="display: none;">
+                                        <button id="resetButton" type="button" class="btn btn-primary w-50">Zurücksetzten</button>
+                                    </div>
+                                </div>
+                                <div class="col-4">            
+                                    <div class="mb-3 text-center">
+                                        {% set profilePicture = app.user.picturePath ? asset(app.user.picturePath) : asset('assets/img/DefaultUser.png') %}                
+                                        <img id="profileImage" src="{{ profilePicture }}" alt="{{ app.user.username }}">                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>        
+                </div>
+
+                <hr class="bg-black border-4 border-top border-black mt-5 mb-5" />
+
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-6"> 
+                            <div class="mb-3">
+                                {{ form_label(userForm.firstName, null, {'label_attr': {'class': 'fs-4'}}) }}
+                                {{ form_widget(userForm.firstName, {'attr': {'class': 'p-3 fs-5', 'user-form-field': 'firstName'}, 'value': app.user.firstName}) }}
+                                <div class="fs-5 fw-bold">
+                                    {{ form_errors(userForm.firstName) }}                
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                {{ form_label(userForm.lastName, null, {'label_attr': {'class': 'fs-4'}}) }}
+                                {{ form_widget(userForm.lastName, {'attr': {'class': 'p-3 fs-5', 'user-form-field': 'lastName'}, 'value': app.user.lastName}) }}
+                                <div class="fs-5 fw-bold">
+                                    {{ form_errors(userForm.lastName) }}
+                                </div>
+                            </div>
+                        </div>        
+                    
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                {{ form_label(userForm.email, null, {'label_attr': {'class': 'fs-4'}}) }}
+                                {{ form_widget(userForm.email, {'attr': {'class': 'p-3 fs-5', 'user-form-field': 'email'}, 'value': app.user.email}) }}
+                                <div class="fs-5 fw-bold">
+                                    {{ form_errors(userForm.email) }}
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="col-6">
+                            <div class="mb-3">
+                                {{ form_label(userForm.role, null, {'label_attr': {'class': 'fs-4'}}) }}
+                                {{ form_widget(userForm.role, {'attr': {'class': 'p-3 fs-5', 'user-form-field': 'role'}, 'value': app.user.role.value}) }}
+                                <div class="fs-5 fw-bold">
+                                    {{ form_errors(userForm.role) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mt-5">
+                    <!-- Submit-Button -->
+                    <div class="d-grid mt-auto">
+                        <button type="submit" class="btn btn-primary p-3 fs-4">Daten Ändern</button>
+                    </div>
+                    <!-- Allgemeine Fehlermeldungs Container Frontend -->
+                    <div class="form-error-container mt-2 fs-5">
+                        {% if userForm.generalError.vars.errors|length > 0 %}
+                        {{ form_errors(userForm.generalError) }}
+                        {% endif %}
+                    </div>         
+                </div>                
+            </div>
+            {{ form_end(userForm) }}
+        </div>
+    </div>
+
+    {% endif %}
+</div>
+<!-- Modale Light Boxes -->
+{% if app.session.flashBag.has('user_edit_success') %}
+    {% include 'auth/partials/successBox.html.twig' with {'header': 'Datenänderung erfolgreich', 'flashKey': 'user_edit_success', 'isLoggedIn': false} %} 
+    <!-- nur hier einmalig einbinden unsere super tolle _external!! -->
+    <script src="{{ asset('build/external.js') }}"></script>
+{% endif %}
+
+{% endblock %}

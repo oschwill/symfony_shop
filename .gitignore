@@ -1,0 +1,33 @@
+
+###> symfony/framework-bundle ###
+# /.env.local
+.env*
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/public/uploads/Users/*
+/var/
+/vendor/
+/.idea/
+db_mockup.txt
+to_do.txt
+/src/var/logs/
+
+### secrets ###
+/config/secrets
+
+# !/public/uploads/Users/
+###< symfony/framework-bundle ###
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+".env" 
+".env.local" 

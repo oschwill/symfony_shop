@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}  {{ site_title }} - {{ title_message }} {% endblock %}
+
+{% block body %}
+
+<div class="container text-black justify-items-center">  
+     {% if app.user and app.user.role.value == 'user' %}
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-warning fs-5 text-center fw-bolder heartbeat" role="alert">
+            Um ein Produkt zu erstellen müssen sie unter "Meine Daten" die Rolle "Admin" auswählen! 
+            </div>    
+        </div>
+    </div>
+    {% endif %}    
+    <!-- PRODUCT CONTENT -->
+    <div class="row">  
+        <div class="col-12 d-flex justify-content-between fs-5">
+            {% if isSearch %}
+            <p class="text-light">Suchergebnisse für folgenden Suchbegriff:
+             <span style="font-weight: bold;">{{searchTerm}}</span>
+            </p>
+
+            {% endif %}
+            
+            <p class="text-light">Anzahl Produkte: {{totalProducts}}</p>
+        </div>
+    </div>
+    <div class="row">  
+    <!-- Loop it baby -->  
+    {% if totalProducts > 0 %}
+        {% for item in getAllProducts %}
+        <div class="col-12 col-lg-6">
+            <div class="card mb-3 productCard">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                    {% if item.picture %}
+                        <img src="{{ item.picture.picturePath }}" class="img-fluid rounded-start" style="object-fit: cover; width: 100%; height: 200px;" alt="{{ item.product.title }}">
+                    {% else %}
+                        <img src="{{ asset('build/images/no_pictures.jpg') }}" class="img-fluid rounded-start" alt="{{ item.product.title }}">
+                    {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body fs-3" style="height: 200px;">
+                            <h5 class="card-title fs-2">{{ item.product.title }}</h5>
+                            <p class="card-text shorten-description">{{ item.product.description }}</p>
+                            <p class="card-text"><strong>Preis: {{ item.product.price }} €</strong></p>
+                            <p class="card-text"><small class="text-muted">erstellt am: {{ item.product.createdAt|date('d.m.Y') }} von {{ item.product.createdFrom }}</small></p>
+                            <a href="{{ path('app_product_detail', {'id': item.product.id}) }}">Produkt Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+    <!-- Wenn keine Ergebnisse gefunden wurden -->
+        <div class="col-12 text-center" style="background-color: transparent; padding: 20px;">
+    <img src="https://www.edelmetall-handel.de/media/catalog/product/cache/1/image/800x/559ea7efac5e598849eec829fd4d64c1/S/S/SSESG_Einschlag-Lupe_im_Leder-Etui__7.jpg" alt="Keine Suchergebnisse" style="width: 35%; height: auto;">
+    <p class="text-light fs-5">Bitte versuchen Sie es mit einem anderen Suchbegriff.</p>
+</div>   
+    {% endif %}
+    
+    </div>
+
+    <!-- PAGINATION -->
+    {% if totalProducts > limit %}
+    <div class="row mt-5 mb-5">
+        <div class="col-12 d-flex justify-content-center">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item {% if currentPage == 1 %}disabled{% endif %}">
+                        <a class="page-link" 
+                        href="{% if isSearch %}{{ path('app_shop_search', {'page': currentPage - 1, 'search': app.request.get('search')}) }}{% else %}{{ path('app_shop', {'page': currentPage - 1}) }}{% endif %}">
+                        Previous
+                        </a>
+                    </li>
+                        {% for i in 1..totalPages %}
+                    <li class="page-item {% if currentPage == i %}active{% endif %}">
+                        <a class="page-link" 
+                            href="{% if isSearch %}{{ path('app_shop_search', {'page': i, 'search': app.request.get('search')}) }}{% else %}{{ path('app_shop', {'page': i}) }}{% endif %}">
+                            {{ i }}
+                        </a>
+                        </li>
+                    {% endfor %}
+                    <li class="page-item {% if currentPage == totalPages %}disabled{% endif %}">
+                        <a class="page-link" 
+                        href="{% if isSearch %}{{ path('app_shop_search', {'page': currentPage + 1, 'search': app.request.get('search')}) }}{% else %}{{ path('app_shop', {'page': currentPage + 1}) }}{% endif %}">
+                        Next
+                        </a>
+                    </li>
+                </ul>
+            </nav>        
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

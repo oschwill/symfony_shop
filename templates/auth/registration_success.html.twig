@@ -1,0 +1,25 @@
+{# templates/auth/registration_success.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Shop | {{controller_name}} {% endblock %}
+
+{% block body %}
+<div class="container text-light">
+  <div class="row h-100 d-flex align-items-center">
+    <div class="col-8 me-auto ms-auto text-center">
+      <h2 class="fs-1 mb-4">Registrierung erfolgreich!</h2>
+      <p>Ihnen wurde ein Verifizierungslink zugesendet. Bitte überprüfen Sie Ihre Email.</p>
+      <a href="/login" class="btn btn-light w-25 p-4 fs-2">Zum Login</a>           
+    </div>    
+    <div class="col-12">
+      <h1 class="alert alert-success text-center">{{ message }}</h1> 
+    </div>
+  </div>
+</div>
+<!-- Modale Light Boxes -->
+{% if app.session.flashBag.has('registration_success') %}
+    {% include 'auth/partials/successBox.html.twig' with {'header': 'Registrierung erfolgreich', 'flashKey': 'registration_success'} %}
+    <!-- nur hier einmalig einbinden unsere super tolle _external!! -->
+    <script src="{{ asset('build/external.js') }}"></script>
+{% endif %}
+{% endblock %}

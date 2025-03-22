@@ -1,0 +1,20 @@
+{# templates/user/show_logout_alert.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Shop | {{controller_name}} {% endblock %}
+{% block body %}
+<!-- Modale Light Boxes -->
+  {% if app.session.flashBag.has('change_password_success') %}
+      {% include 'auth/partials/successBox.html.twig' with {'header': 'Passwortänderung erfolgreich, Sie werden nun ausgeloggt', 'flashKey': 'change_password_success', 'isLoggedIn': true} %} 
+      <!-- nur hier einmalig einbinden unsere super tolle _external!! -->
+      <script src="{{ asset('build/external.js') }}"></script>
+
+  {% else %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        alert('Passwort wurde erfolgreich geändert. Sie werden jetzt ausgeloggt.');
+        window.location.href = "{{ path('app_logout') }}"; // Leitet zum Logout weiter
+    });
+  </script>
+  {% endif %}
+{% endblock %}

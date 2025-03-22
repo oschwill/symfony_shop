@@ -1,0 +1,81 @@
+{# templates/auth/login.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Shop | {{controller_name}} {% endblock %}
+
+{% block body %}
+<div class="container text-light">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center mb-5">{{ controller_name }}</h1>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+         <input type="hidden" name="token" value="{{ csrf_token('authenticate') }}">
+        <div class="col-6">
+            {{ form_start(loginForm) }}
+            <div class="mb-3">
+                {{ form_label(loginForm.email, null, {'label_attr': {'class': 'fs-4'}}) }}
+                {{ form_widget(loginForm.email, {'attr': {'class': 'p-3 fs-5', 'login-form-field': 'email', 'value': email, 'placeholder': 'Deine Email'}}) }}
+                {{ form_errors(loginForm.email) }}
+            </div>            
+
+            <div class="mb-3 position-relative">
+                {{ form_label(loginForm.password, null, {'label_attr': {'class': 'fs-4'}}) }}
+                
+                <div class="input-group">
+                    {{ form_widget(loginForm.password, {'attr': {'class': 'p-3 form-control fs-5', 'login-form-field': 'password', 'placeholder': 'Dein Passwort'}}) }}
+                    <p type="button" class="position-absolute top-50 end-0 translate-middle-y me-2" id="toggle-password-visibility" style="z-index: 200;">
+                        <i id="eye-icon" class="bi bi-eye" style="font-size: 2rem;"></i>
+                    </p>
+                </div>
+                
+                {{ form_errors(loginForm.password) }}
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center login-options">
+                <!-- Checkbox für Cookie -->
+                <div class="form-check mb-3 d-flex align-items-center gap-3">
+                    <input class="form-check-input p-3" type="checkbox" id="remember-me" name="_remember_me">
+                    <label class="form-check-label fs-4" for="remember-me">Angemeldet bleiben?</label>
+                </div>
+
+                <!-- Passwort vergessen Button -->
+                <div class="mb-3">
+                    <button type="button" class="btn btn-link p-3 fs-4 text-info" id="forgot-password" data-bs-toggle="modal" data-bs-target="#passwordResetModal">Passwort vergessen?</button>
+                </div>
+            </div>
+
+            <!-- Müssen nochmal ein Token Field mit authenticate erstellen...no comment!! -->
+            <input type="hidden" name="_csrf_token"
+                value="{{ csrf_token('authenticate') }}"
+            >   
+
+
+            <!-- Submit-Button -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary p-3 fs-4" login-form-field="submitButton">Login</button>
+            </div>
+            <!-- Allgemeine Fehlermeldungs Container -->
+            <div class="form-error-container mt-2 fs-5">
+                {% if loginForm.generalError.vars.errors|length > 0 %}
+                 {{ form_errors(loginForm.generalError) }}
+                {% endif %}
+            </div>  
+            {{ form_end(loginForm) }}
+        </div>
+    </div>
+</div>
+
+<!-- Modale Light Boxes -->
+{% if app.session.flashBag.has('change_password_success') %}
+    {% include 'auth/partials/successBox.html.twig' with {'header': 'Passwortänderung erfolgreich', 'flashKey': 'change_password_success', 'isLoggedIn': false} %} 
+    <!-- nur hier einmalig einbinden unsere super tolle _external!! -->
+    <script src="{{ asset('build/external.js') }}"></script>
+{% elseif app.session.flashBag.has('registration_verify_success')  %}
+    {% include 'auth/partials/successBox.html.twig' with {'header': 'Verifizierung erfolgreich', 'flashKey': 'registration_verify_success', 'isLoggedIn': false} %} 
+    <!-- nur hier einmalig einbinden unsere super tolle _external!! -->
+    <script src="{{ asset('build/external.js') }}"></script>
+{% endif %}
+    {% include 'auth/partials/passwordResetBox.html.twig' %}
+{% endblock %}

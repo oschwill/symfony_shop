@@ -1,0 +1,18 @@
+<html>
+<body>
+{% include 'partials/startHeader.html.twig' %}
+
+<main class="container bgcustom-light-grey text-light">
+  <div class="row">
+    <div class="col-12">
+      <h2>Hallo {{ user.firstName }} {{ user.lastName }}</h2>
+      <p>Vielen Dank für Ihre Registrierung. Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf den folgenden Link klicken:</p>
+      <p><a href="{{ url('app_verify_email', { token: user.registerToken, email: user.email }) }}">E-Mail bestätigen </a>
+      <p>Mit freundlichen Grüßen</p>
+      <p>Irgendein Random Shop</p>
+
+    </div>
+  </div>
+</main>
+</body>
+</html>

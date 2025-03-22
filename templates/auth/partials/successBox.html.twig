@@ -1,0 +1,25 @@
+{% set flashMessages = app.session.flashBag.get(flashKey) %}
+<div class="modal fade text-dark" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">{{ header }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <p class="text-success fs-5 fw-bold">{{ flashMessages[0] }}</p>                
+                  
+            </div>
+            <div class="modal-footer">
+                <a href="{{ path('app_logout') }}" class="btn btn-primary" data-bs-dismiss="modal" onclick="{{ isLoggedIn ? 'logout()' : '' }}">OK</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function logout() {
+        // Führe den Logout aus
+        window.location.href = "{{ path('app_logout') }}";
+    }
+</script>

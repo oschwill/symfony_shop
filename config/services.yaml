@@ -1,0 +1,78 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+  custom_log_path: "%kernel.project_dir%/var/logs/custom.log"
+
+services:
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+  # makes classes in src/ available to be used as services
+  # this creates a service per class whose id is the fully-qualified class name
+  App\:
+    resource: "../src/"
+    exclude:
+      - "../src/DependencyInjection/"
+      - "../src/Entity/"
+      - "../src/Kernel.php"
+      - "../src/Helper/"
+
+  #Einbinden des ProductServices!!!
+  App\Service\ProductService:
+    arguments:
+      $productRepository: '@App\Repository\ProductRepository'
+      $productPicturesRepository: '@App\Repository\ProductPicturesRepository'
+
+  #Einbinden des AuthServices!!!
+  App\Service\AuthService:
+    arguments:
+      $entityManager: "@doctrine.orm.entity_manager"
+      $passwordHasher: "@security.password_hasher"
+      $requestStack: "@request_stack"
+
+  # Einbinden des CustomLoggers!
+  App\Logger\CustomLogger:
+    arguments:
+      $logDirectory: "%kernel.project_dir%/src/var/logs"
+
+  # Einbinden des FlashSessionHandler
+  App\Service\FlashSessionService:
+    arguments:
+      $requestStack: "@request_stack"
+
+  # Einbinden des Authenticators
+  App\Security\LoginFormAuthenticator:
+    arguments:
+      $userPasswordHasher: "@security.password_hasher"
+      $urlGenerator: "@router"
+      $userProvider: '@App\Security\UserProvider'
+      $customLogger: '@App\Logger\CustomLogger'
+      $flashSessionService: '@App\Service\FlashSessionService'
+    tags: ["security.authenticator"]
+
+  #Einbinden des UserProviders
+  App\Security\UserProvider:
+    arguments:
+      $userRepository: '@App\Repository\UserRepository'
+
+  #Einbinden des UploadHandlers
+  App\Utility\UploadHandler:
+    arguments:
+      $uploadDir: "%kernel.project_dir%/public/uploads"
+
+  App\Utility\ProductHandler:
+    arguments:
+      $entityManager: "@doctrine.orm.entity_manager"
+
+  FOS\ElasticaBundle\Finder\PaginatedFinderInterface: "@fos_elastica.finder.products"
+
+  # custom_logger:
+  #   class: Monolog\Logger
+  #   arguments: ["custom"]
+  #   tags:
+  #     - { name: monolog.logger, channel: custom }

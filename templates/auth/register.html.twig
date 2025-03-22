@@ -1,0 +1,91 @@
+{# templates/auth/register.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Shop | {{controller_name}} {% endblock %}
+
+{% block body %}
+<div class="container text-light">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center mb-5">{{ controller_name }}</h1>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            {{ form_start(registrationForm) }}
+
+            <div class="mb-3">
+                {{ form_label(registrationForm.firstName, null, {'label_attr': {'class': 'fs-4'}}) }}
+                {{ form_widget(registrationForm.firstName, {'attr': {'class': 'p-3 fs-5', 'register-form-field': 'firstName'}}) }}
+                <div class="fs-5 fw-bold">
+                    {{ form_errors(registrationForm.firstName) }}                
+                </div>
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(registrationForm.lastName, null, {'label_attr': {'class': 'fs-4'}}) }}
+                {{ form_widget(registrationForm.lastName, {'attr': {'class': 'p-3 fs-5', 'register-form-field': 'lastName'}}) }}
+                <div class="fs-5 fw-bold">
+                    {{ form_errors(registrationForm.lastName) }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(registrationForm.email, null, {'label_attr': {'class': 'fs-4'}}) }}
+                {{ form_widget(registrationForm.email, {'attr': {'class': 'p-3 fs-5', 'register-form-field': 'email'}}) }}
+                <div class="fs-5 fw-bold">
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(registrationForm.password, null, {'label_attr': {'class': 'fs-4'}}) }}
+                <div class="input-group">
+                {{ form_widget(registrationForm.password, {'attr': {'class': 'p-3 fs-5', 'register-form-field': 'password'}}) }}
+                 <p type="button" class="position-absolute top-50 end-0 translate-middle-y me-2 toggle-password-visibility" style="z-index: 200;">
+                    <i id="eye-icon-pw" class="bi bi-eye" style="font-size: 2rem;"></i>
+                </p>
+                </div>
+                <div class="fs-5 fw-bold">
+                    {{ form_errors(registrationForm.password) }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(registrationForm.passwordRepeat, null, {'label_attr': {'class': 'fs-4'}}) }}
+                <div class="input-group">
+                {{ form_widget(registrationForm.passwordRepeat, {'attr': {'class': 'p-3 fs-5', 'register-form-field': 'passwordRepeat'}}) }}
+                <p type="button" class="position-absolute top-50 end-0 translate-middle-y me-2 toggle-password-visibility" style="z-index: 200;">
+                        <i id="eye-icon-pwwdh" class="bi bi-eye" style="font-size: 2rem;"></i>
+                    </p>
+                </div> 
+                <div class="fs-5 fw-bold">
+                    {{ form_errors(registrationForm.passwordRepeat) }}
+                </div>
+            </div>
+
+            <!-- Beispiel für ein Bild-Upload-Feld, was sich garnicht von den anderen unterscheidet... -->
+            <div class="mb-3">
+                {{ form_label(registrationForm.pictureUpload, null, {'label_attr': {'class': 'fs-4'}}) }}
+                {{ form_widget(registrationForm.pictureUpload, {'attr': {'class': 'p-3 fs-5', 'register-form-field': 'pictureUpload'}}) }}
+                {{ form_errors(registrationForm.pictureUpload) }}
+            </div>
+            <!-- RECAPTCHA -->
+            <div class="g-recaptcha mb-3" data-sitekey="{{ recaptcha_site_key }}"></div>
+
+            <!-- Submit-Button -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary p-3 fs-4">Registrieren</button>
+            </div>
+            <!-- Allgemeine Fehlermeldungs Container Frontend -->
+            <div class="form-error-container mt-2 fs-5">
+                {% if registrationForm.generalError.vars.errors|length > 0 %}
+                 {{ form_errors(registrationForm.generalError) }}
+                {% endif %}
+            </div>           
+
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

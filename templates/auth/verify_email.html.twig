@@ -1,0 +1,31 @@
+{# templates/auth/verify_email.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Shop | {{controller_name}} {% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-10">
+        {% for type, messages in app.flashes %}
+                <div class="flash-{{ type }} d-flex flex-column align-items-center">
+                    {% for message in messages %}
+                        {% if type == "registration_verify_failed" %}
+                            <h1 style="color:red" class="text-center">{{ message }}</h1>
+                             <img src="{{ asset('build/images/ERROR.png') }}" alt="Logo" class="me-3 mt-5 w-25" styles="height: 100%; width: 50%;">
+                        {% else %}
+                            <h1>{{ message }}, Sie werden nun an die Login Seite weitergeleitet.</h1>
+                            <!-- Timer Container -->
+                            <div class="row mt-5">
+                                <div class="col text-center mt-5">
+                                    <h2>Sie werden in <span id="timer">{{ timer_duration }}</span> Sekunden weitergeleitet...</h2>
+                                </div>
+                            </div>                        
+                        {% endif %}
+                    {% endfor %}
+                </div>
+        {% endfor %}        
+        </div>
+    </div>
+</div>
+{% endblock %}

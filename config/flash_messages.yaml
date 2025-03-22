@@ -1,0 +1,8 @@
+flash_messages:
+  registration_success: "Sie wurden erfolgreich registriert!"
+  registration_error: "Registrierung fehlgeschlagen!"
+  registration_verify_success: "Ihr Login Zugang wurde erfolgreich aktiviert."
+  registration_verify_failed: "Die Login Zugangsaktivierung ist fehlgeschlagen. Bitte kontaktieren Sie den Support."
+  login_failed: "Der Login ist fehlgeschlagen."
+  change_password_success: "Ihr Passwort wurde erfolgreich geändert."
+  user_edit_success: "Ihre UserDaten wurden erfolgreich geändert"
